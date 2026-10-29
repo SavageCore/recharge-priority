@@ -29,8 +29,11 @@ FONT = os.path.join(HERE, "fonts", "GeosansLight-NMS.ttf")
 TITLE = "RECHARGE PRIORITY"
 SUBTITLE = "ION BATTERIES  \u2022  LIFE SUPPORT GEL"
 
-# Vertical offset of the header crop band in source pixels.
-HEADER_BAND_Y = 400
+# Vertical offset of the header crop band in source pixels. Kept at the top:
+# the mission tracker overlaps the quick menu lower in the frame, so any
+# band including the menu carries that text through the fuel cards. The
+# gallery still below carries the proof; the header stays a clean vista.
+HEADER_BAND_Y = 0
 
 # Banner geometry. The Nexus banner slot is 1300x372.
 BAND_W, BAND_H = 1300, 372

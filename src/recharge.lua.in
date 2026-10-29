@@ -1,0 +1,85 @@
+-- Recharge Priority
+-- RENDERED FILE - do not edit; edit src/recharge.lua.in and src/patches.tsv
+-- and run make release.
+--
+-- Updated by SavageCore
+--
+-- What it does: the game spends the first recharge fuel it can find in a
+-- technology's ChargeBy list. This rewrites that order so Ion Batteries and
+-- Life Support Gel come first, and the raw substances stay behind them as
+-- fallbacks.
+--
+-- The list slots are in src/patches.tsv, which also drives the verify step,
+-- so a slot can never be patched without also being checked.
+
+local ModName     = "Recharge Priority"
+local ModAuthor   = "SavageCore"
+local GameVersion = "v7.10"
+
+-- Every list slot this mod patches, rendered from src/patches.tsv.
+local Patches = {
+@PATCHES@
+}
+
+-- Group the slots by technology, keeping every list in slot order.
+local groupOrder = {}
+local byEntry = {}
+
+for _, patch in ipairs(Patches) do
+    local key = patch.file.."\n"..patch.entry
+    if byEntry[key] == nil then
+        byEntry[key] = { file = patch.file, entry = patch.entry, slots = {} }
+        groupOrder[#groupOrder + 1] = key
+    end
+    byEntry[key].slots[patch.index + 1] = patch.value
+end
+
+-- One block per technology. The ChargeBy head is found under the
+-- technology's ID, LINE_OFFSET 1 lands on slot 0, and the value changes
+-- walk the list one line at a time. MXML_CHANGE_TABLE is a LIST of change
+-- blocks even when there is only one, so the block list is wrapped in an
+-- outer table. Handing AMUMSS a bare block instead makes it report
+-- "MXML_CHANGE_TABLE does not contain any usable TABLE", make 0 changes,
+-- and ship nothing.
+local fileOrder = {}
+local byFile = {}
+
+for _, key in ipairs(groupOrder) do
+    local group = byEntry[key]
+    if byFile[group.file] == nil then
+        byFile[group.file] = {}
+        fileOrder[#fileOrder + 1] = group.file
+    end
+    local values = {}
+    for index = 0, #group.slots - 1 do
+        values[#values + 1] = {"ChargeBy", group.slots[index + 1]}
+    end
+    byFile[group.file][#byFile[group.file] + 1] = {
+        ["SPECIAL_KEY_WORDS"]    = {"ID", group.entry},
+        ["PRECEDING_KEY_WORDS"]  = {"ChargeBy"},
+        ["LINE_OFFSET"]          = 1,
+        ["VALUE_CHANGE_TABLE"]   = values,
+    }
+end
+
+local MbinChangeTable = {}
+
+for _, file in ipairs(fileOrder) do
+    MbinChangeTable[#MbinChangeTable + 1] = {
+        ["MBIN_FILE_SOURCE"]  = {file},
+        ["MXML_CHANGE_TABLE"] = byFile[file],
+    }
+end
+
+NMS_MOD_DEFINITION_CONTAINER = {
+    ["MOD_FILENAME"]    = ModName..".pak",
+    ["MOD_DESCRIPTION"] = "Ion Batteries and Life Support Gel first in every recharge list",
+    ["MOD_AUTHOR"]      = ModAuthor,
+    ["NMS_VERSION"]     = GameVersion,
+    ["MODIFICATIONS"]   =
+    {
+        {
+            ["MBIN_CHANGE_TABLE"] = MbinChangeTable,
+        },
+    },
+}

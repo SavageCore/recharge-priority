@@ -1,0 +1,31 @@
+[center][size=5][b]Recharge Priority[/b][/size]
+Recharge from your Ion Batteries and Life Support Gel, not your oxygen.[/center]
+
+[b]What it does[/b]
+The quick menu spends the first recharge fuel it can find in a technology's fuel list. The vanilla lists start with the raw substance, so a Life Support recharge reaches for Oxygen and a Hazard Protection recharge reaches for Sodium.
+This mod rewrites those lists so the crafted consumable comes first: Ion Batteries for hazard protection and the four environmental shields, Life Support Gel for life support and the underwater shield.
+Nothing is removed. When the batteries or gel run out, the game falls back to Oxygen, Sodium, Sodium Nitrate, Dioxite and the rest exactly as before.
+
+[b]Recharge order[/b]
+[list]
+[*][b]Life Support[/b]: Life Support Gel, Oxygen, Dioxite
+[*][b]Hazard Protection[/b]: Ion Battery, Sodium, Sodium Nitrate
+[*][b]Thermal shield[/b]: Ion Battery, Phosphorus
+[*][b]Cold shield[/b]: Ion Battery, Dioxite
+[*][b]Radiation shield[/b]: Ion Battery, Uranium
+[*][b]Toxic shield[/b]: Ion Battery, Ammonia
+[*][b]Underwater shield[/b]: Life Support Gel, Oxygen
+[/list]
+
+[b]Install[/b]
+Copy the [i]Recharge Priority[/i] folder into [i]GAMEDATA/MODS[/i], or import the zip with Amethyst or Vortex. There are no installer options.
+
+[b]Compatibility[/b]
+[list]
+[*]Built for Forsaken
+[*]Edits the recharge fuel lists in [i]METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN[/i] as EXML line replacements, so it works alongside mods that change other lines of that table
+[*]Conflicts with any other mod that rewrites these same seven fuel lists
+[*][b].lua [/b]included so you can merge with AMUMSS
+[/list]
+
+Built natively on Linux with my [url=https://github.com/SavageCore/AMUMSS/tree/feat/linux-support]AMUMSS Linux port[/url].

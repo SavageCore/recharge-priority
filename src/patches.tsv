@@ -1,0 +1,49 @@
+# The recharge order this mod patches, one line per list slot:
+#
+#   FILE<TAB>ENTRY<TAB>INDEX<TAB>BASE<TAB>VALUE
+#
+# FILE is the MBIN path the game uses, relative to the data root.
+# ENTRY is the _id of the GcTechnology row.
+# INDEX is the slot in that row's ChargeBy list.
+# BASE is the value the game ships in that slot today.
+# VALUE is the value the mod puts there.
+#
+# Every slot of every patched list is listed, including the slots that do
+# not move. The render step turns this table into one whole-list rewrite
+# per technology, and verify checks every slot and the list length, so a
+# list can never ship half patched.
+#
+# ChargeBy is the game's recharge order: the first fuel it can find is the
+# one it spends, and the rest are fallbacks. These rows move the crafted
+# consumables to the front and leave the raw substances behind them.
+#
+#   ENERGY      Life Support        Life Support Gel, Oxygen, Dioxite
+#   PROTECT     Hazard Protection   Ion Battery, Sodium, Sodium Nitrate
+#   T_RAD       Radiation shield    Ion Battery, Uranium
+#   T_TOX       Toxic shield        Ion Battery, Ammonia
+#   T_COLDPROT  Cold shield         Ion Battery, Dioxite
+#   T_HOTPROT   Heat shield         Ion Battery, Phosphorus
+#   T_UNW       Underwater shield   Life Support Gel, Oxygen
+
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	ENERGY	0	OXYGEN	PRODFUEL2
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	ENERGY	1	PRODFUEL2	OXYGEN
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	ENERGY	2	COLD1	COLD1
+
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	PROTECT	0	CATALYST1	POWERCELL
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	PROTECT	1	CATALYST2	CATALYST1
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	PROTECT	2	POWERCELL	CATALYST2
+
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_RAD	0	RADIO1	POWERCELL
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_RAD	1	POWERCELL	RADIO1
+
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_TOX	0	TOXIC1	POWERCELL
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_TOX	1	POWERCELL	TOXIC1
+
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_COLDPROT	0	COLD1	POWERCELL
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_COLDPROT	1	POWERCELL	COLD1
+
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_HOTPROT	0	HOT1	POWERCELL
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_HOTPROT	1	POWERCELL	HOT1
+
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_UNW	0	OXYGEN	PRODFUEL2
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	T_UNW	1	PRODFUEL2	OXYGEN

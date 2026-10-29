@@ -28,7 +28,7 @@ AMUMSS_LINUX ?= $(HOME)/Git/AMUMSS/linux
 # The mod version, published as the version of the Nexus release. An
 # unreleased build stays at 0.0.0; the first public release bumps this in the
 # same commit that publishes it.
-VERSION      := 0.0.0
+VERSION      := 0.1.0
 
 MOD_SET      := Recharge Priority
 

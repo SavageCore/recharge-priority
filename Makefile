@@ -11,7 +11,7 @@
 #   make release      clean rebuild + verify + pack dist/ zip (default)
 #   make verify       sanity-check the built output
 #   make clean        remove build/ and dist/
-#   make assets       regenerate the Nexus page images (gallery + header)
+#   make assets       regenerate the Nexus page header
 #
 # Override the AMUMSS install location if needed:
 #   make AMUMSS_HOME=/path/to/AMUMSS release
@@ -96,10 +96,11 @@ rootzip: verify
 	@echo "packed: $(ROOTZIP) (version $(VERSION))"
 	@unzip -l "$(ROOTZIP)" | tail -4
 
-# Nexus page header from the source screenshot in assets/. The generated
-# images are build artifacts and are not tracked; the screenshot and the
-# typeface are.
-assets: assets/src/gallery-recharge-priority.jpg assets/generate.py
+# Nexus page header from the source screenshot in assets/src/. The header
+# is a build artifact and is not tracked; the screenshots and the
+# typeface are. There is no generated gallery still: the before/after
+# comparison stills in src/ upload to Nexus directly.
+assets: assets/src/header-recharge-priority.jpg assets/generate.py
 	python3 assets/generate.py
 
 clean:

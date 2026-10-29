@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
-"""Regenerate Nexus page images from the source screenshot.
+"""Regenerate the Nexus page header from the source screenshot.
 
-  assets/gallery-1920x1080.jpg  (16:9 downscale, gallery slot)
   assets/header-1300x372.jpg    (wide crop + title overlay, banner)
+
+This mod ships no generated gallery still: the before/after comparison
+stills in src/ upload to Nexus directly, and a downscale of either one
+would only duplicate them. The header therefore stays a clean vista
+band off the top of the after shot.
 
 Usage: python3 assets/generate.py   (or: make assets)
 Requires: Pillow (pip install Pillow). Typeface is vendored (see FONT).
-
-SRC must be an in-game recharge screenshot at 2560x1440, showing the quick
-menu or inventory with the recharge fuel order visible. Ship art that does
-not match the mod is worse than shipping no art at all, so generate.py
-refuses to run rather than guess.
 """
 import os
 import sys
@@ -18,8 +17,7 @@ import sys
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(HERE, "src", "gallery-recharge-priority.jpg")
-GAL = os.path.join(HERE, "gallery-1920x1080.jpg")
+SRC = os.path.join(HERE, "src", "header-recharge-priority.jpg")
 HDR = os.path.join(HERE, "header-1300x372.jpg")
 
 # In-game heading typeface, vendored (SIL OFL 1.1):
@@ -29,11 +27,10 @@ FONT = os.path.join(HERE, "fonts", "GeosansLight-NMS.ttf")
 TITLE = "RECHARGE PRIORITY"
 SUBTITLE = "ION BATTERIES  \u2022  LIFE SUPPORT GEL"
 
-# Vertical offset of the header crop band in source pixels. Kept at the top:
-# the mission tracker overlaps the quick menu lower in the frame, so any
-# band including the menu carries that text through the fuel cards. The
-# gallery still below carries the proof; the header stays a clean vista.
-HEADER_BAND_Y = 0
+# Vertical offset of the header crop band in source pixels. The band frames
+# the quick menu: the source is the after shot with no mission tracker
+# overlapping the fuel cards, so the menu reads cleanly under the title.
+HEADER_BAND_Y = 649
 
 # Banner geometry. The Nexus banner slot is 1300x372.
 BAND_W, BAND_H = 1300, 372
@@ -61,9 +58,6 @@ def main():
 
     img = Image.open(SRC).convert("RGB")
     assert img.size == (2560, 1440), f"unexpected source size {img.size}"
-
-    img.resize((1920, 1080), Image.LANCZOS).save(GAL, quality=92)
-    print(f"wrote {GAL}")
 
     w, h = img.size
     band_h = int(w * 372 / 1300)

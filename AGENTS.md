@@ -27,7 +27,9 @@
   `ChargeBy` head for the full list. TERRAINEDITOR is the case: it charges by
   substance category (`Metal`), so the mod gives it an explicit ordered list
   with Silicate Powder first. All four `Metal` substances are listed, so the
-  fallback set is exactly what the category offered.
+  fallback set is exactly what the category offered. Proven in game: the
+  quick menu leads with Silicate Powder, so a written list beats the category
+  fallback.
 - One install step, `SelectExactlyOne`, three prebuilt variants (`full`,
   `suit-only`, `terrain-only`). Separate toggles are not offered: both options
   ship the same EXML path, so two folders would overwrite each other.

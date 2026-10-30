@@ -1,0 +1,40 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd">
+  <moduleName>Recharge Priority</moduleName>
+  <installSteps order="Explicit">
+    <installStep name="Choose what Recharge Priority changes">
+      <optionalFileGroups order="Explicit">
+        <group name="Coverage" type="SelectExactlyOne">
+          <plugins order="Explicit">
+            <plugin name="Suit and Terrain Manipulator">
+              <description>Ion Batteries and Life Support Gel first for every suit recharge, Silicate Powder first for the Terrain Manipulator. Everything else stays as fallback.</description>
+              <files>
+                <folder source="full" destination="Recharge Priority" priority="0" />
+              </files>
+              <typeDescriptor>
+                <type name="Optional" />
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Suit only">
+              <description>Ion Batteries and Life Support Gel first for Life Support, Hazard Protection and the five environmental shields. The Terrain Manipulator is untouched.</description>
+              <files>
+                <folder source="suit-only" destination="Recharge Priority" priority="0" />
+              </files>
+              <typeDescriptor>
+                <type name="Optional" />
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Terrain Manipulator only">
+              <description>Silicate Powder first for the Terrain Manipulator, the three ferrites behind it. Suit recharges are untouched.</description>
+              <files>
+                <folder source="terrain-only" destination="Recharge Priority" priority="0" />
+              </files>
+              <typeDescriptor>
+                <type name="Optional" />
+              </typeDescriptor>
+            </plugin>
+          </plugins>
+        </group>
+      </optionalFileGroups>
+    </installStep>
+  </installSteps>
+</config>

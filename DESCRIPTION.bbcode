@@ -5,7 +5,7 @@ Requested by [b][url=https://www.nexusmods.com/profile/TrueWhiteKnight]TrueWhite
 
 [b]What it does[/b]
 The quick menu spends the first recharge fuel it can find in a technology's fuel list. The vanilla lists start with the raw substance, so a Life Support recharge reaches for Oxygen and a Hazard Protection recharge reaches for Sodium.
-This mod rewrites those lists so the crafted consumable comes first: Ion Batteries for hazard protection and the four environmental shields, Life Support Gel for life support and the underwater shield.
+This mod rewrites those lists so the crafted consumable comes first: Ion Batteries for hazard protection and the four environmental shields, Life Support Gel for life support and the underwater shield. The Terrain Manipulator ships no fuel list at all, so its option writes one: Silicate Powder first, the three ferrites behind it.
 
 [b]Recharge order[/b]
 [list]
@@ -16,17 +16,18 @@ This mod rewrites those lists so the crafted consumable comes first: Ion Batteri
 [*][b]Radiation shield[/b]: Ion Battery, Uranium[/*]
 [*][b]Toxic shield[/b]: Ion Battery, Ammonia[/*]
 [*][b]Underwater shield[/b]: Life Support Gel, Oxygen[/*]
+[*][b]Terrain Manipulator[/b]: Silicate Powder, Ferrite Dust, Pure Ferrite, Magnetised Ferrite[/*]
 [/list]
 
 [b]Install[/b]
-Copy the [i]Recharge Priority[/i] folder into [i]GAMEDATA/MODS[/i], or import the zip with Amethyst or Vortex.
+Import the zip with Amethyst or Vortex and pick suit and Terrain Manipulator, suit only, or Terrain Manipulator only.
 
 [b]Compatibility[/b]
 [list]
 [*]Built for Forsaken[/*]
 [*]Edits the recharge fuel lists in [i]METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN[/i] as EXML line replacements, so it works alongside mods that change other lines of that table[/*]
-[*]Conflicts with any other mod that rewrites these same seven fuel lists[/*]
-[*][b].lua [/b]included so you can merge with AMUMSS[/*]
+[*]Conflicts with any other mod that rewrites these same eight fuel lists[/*]
+[*][b].lua [/b]scripts included so you can merge with AMUMSS[/*]
 [/list]
 
 Built natively on Linux with my [url=https://github.com/SavageCore/AMUMSS/tree/feat/linux-support]AMUMSS Linux port[/url].

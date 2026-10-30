@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Check the built Recharge Priority table.
+"""Check the built Recharge Priority installer variants.
 
-This asserts:
+For every variant this asserts:
 
   1. the built EXML exists and was produced by this run, not carried over
      from a previous one
@@ -10,7 +10,9 @@ This asserts:
   3. the EXML patches those technologies and no others, and carries
      nothing but the charge list for each of them
   4. the patch table's BASE column still matches the vanilla snapshot in
-     src/vanilla-chargeby.tsv
+     src/vanilla-chargeby.tsv - or, for a written list, is still absent
+     from it, so a game update that ships its own list fails here loudly
+     instead of silently doubling one
   5. there are no AMUMSS marker attributes or marker tags left behind,
      which would leave the patch visibly annotated in game
 
@@ -111,60 +113,68 @@ def load_built(path):
     return lists, elements
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--build", required=True)
-    parser.add_argument("--mod-set", required=True)
-    parser.add_argument("--expected", required=True)
-    parser.add_argument("--vanilla", required=True)
-    parser.add_argument("--script", required=True)
-    args = parser.parse_args()
-
-    exml = os.path.join(args.build, args.mod_set, TABLE_REL.replace("/", os.sep))
-    failures = []
+def check_variant(build, mod_set, variant, expected_path, vanilla, failures):
+    """Check one variant, appending any problems to failures."""
+    script = os.path.join(build, "%s.lua" % variant)
+    exml = os.path.join(
+        build, "%s - %s" % (mod_set, variant), TABLE_REL.replace("/", os.sep)
+    )
 
     if not os.path.isfile(exml):
-        print("BAD MISSING %s" % TABLE_REL, file=sys.stderr)
-        return 1
-    if os.path.getmtime(exml) < os.path.getmtime(args.script):
-        failures.append("STALE %s - older than the script that should have produced it" % TABLE_REL)
+        failures.append("%s: MISSING %s" % (variant, TABLE_REL))
+        return
+    if os.path.getmtime(exml) < os.path.getmtime(script):
+        failures.append(
+            "%s: STALE %s - older than the script that should have produced it"
+            % (variant, TABLE_REL)
+        )
 
     with open(exml, encoding="utf-8") as handle:
         text = handle.read()
     if "!#" in text:
-        failures.append("marker tags present in %s" % TABLE_REL)
+        failures.append("%s: marker tags present in %s" % (variant, TABLE_REL))
     if "_remove=" in text or "_overwrite=" in text:
-        failures.append("AMUMSS marker attributes left in %s" % TABLE_REL)
+        failures.append("%s: AMUMSS marker attributes left in %s" % (variant, TABLE_REL))
 
-    expected, bases = read_expected(args.expected)
-    vanilla = read_vanilla(args.vanilla)
-
+    expected, bases = read_expected(expected_path)
     built, built_elements = load_built(exml)
 
     # Job 2: the patched lists, slot by slot.
     for entry, slots in expected.items():
-        want = ordered(slots, entry, args.expected)
+        want = ordered(slots, entry, expected_path)
         if entry not in built:
-            failures.append("%s has no charge list" % entry)
+            failures.append("%s: %s has no charge list" % (variant, entry))
             continue
         if built[entry] != want:
             failures.append(
-                "%s charge list is %r, want %r" % (entry, built[entry], want)
+                "%s: %s charge list is %r, want %r"
+                % (variant, entry, built[entry], want)
             )
 
     # Job 3: the EXML is a list of line replacements, so it must carry the
     # patched technologies only.
     extra = sorted(set(built) - set(expected))
     if extra:
-        failures.append("patched technologies the table does not name: %s" % ", ".join(extra))
+        failures.append(
+            "%s: patched technologies the table does not name: %s"
+            % (variant, ", ".join(extra))
+        )
 
-    # Job 4: the table still patches what the game actually ships.
+    # Job 4: the table still patches what the game actually ships. An
+    # empty BASE means the game ships no slot there: the list is written,
+    # not reordered, and any shipped slot is a surprise.
     for (entry, index), base in sorted(bases.items()):
         shipped = vanilla.get(entry, {}).get(index)
-        if shipped != base:
+        if base == "":
+            if shipped is not None:
+                failures.append(
+                    "%s: %s slot %d is written but the vanilla snapshot ships %r"
+                    % (variant, entry, index, shipped)
+                )
+        elif shipped != base:
             failures.append(
-                "%s slot %d: BASE is %r but the vanilla snapshot has %r"
-                % (entry, index, base, shipped)
+                "%s: %s slot %d: BASE is %r but the vanilla snapshot has %r"
+                % (variant, entry, index, base, shipped)
             )
 
     # Job 3, continued: each patched row must carry the charge list and
@@ -175,17 +185,33 @@ def main():
         names = [child.get("name") for child in built_elements[entry]]
         if names != ["ChargeBy"]:
             failures.append(
-                "%s patches %r, want only the ChargeBy list" % (entry, names)
+                "%s: %s patches %r, want only the ChargeBy list" % (variant, entry, names)
             )
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--build", required=True)
+    parser.add_argument("--mod-set", required=True)
+    parser.add_argument("--variants", required=True)
+    parser.add_argument("--vanilla", required=True)
+    args = parser.parse_args()
+
+    vanilla = read_vanilla(args.vanilla)
+
+    failures = []
+    variants = args.variants.split()
+    for variant in variants:
+        expected_path = os.path.join(args.build, "%s.expected.tsv" % variant)
+        check_variant(args.build, args.mod_set, variant, expected_path, vanilla, failures)
 
     if failures:
         for failure in failures:
             print("BAD " + failure, file=sys.stderr)
         return 1
-
     print(
-        "verify: OK (%d technologies patched, %d untouched, fresh this run, no marker attributes)"
-        % (len(expected), len(vanilla) - len(expected))
+        "verify: OK (variants %s, all fresh this run, no marker attributes)"
+        % ", ".join(variants)
     )
     return 0
 

@@ -25,7 +25,7 @@ HDR = os.path.join(HERE, "header-1300x372.jpg")
 FONT = os.path.join(HERE, "fonts", "GeosansLight-NMS.ttf")
 
 TITLE = "RECHARGE PRIORITY"
-SUBTITLE = "ION BATTERIES  \u2022  LIFE SUPPORT GEL"
+SUBTITLE = "ION BATTERIES  \u2022  LIFE SUPPORT GEL  \u2022  SILICATE POWDER"
 
 # Vertical offset of the header crop band in source pixels. The band frames
 # the quick menu: the source is the after shot with no mission tracker

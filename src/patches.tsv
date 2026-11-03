@@ -6,12 +6,12 @@
 # ENTRY is the _id of the GcTechnology row.
 # INDEX is the slot in that row's ChargeBy list.
 # BASE is the value the game ships in that slot today, or empty when the
-#   game ships no slot there at all: TERRAINEDITOR's list starts empty and
-#   the mod writes it, rather than reordering it.
+#   game ships no slot there at all: TERRAINEDITOR's and GRAVITYGUN's lists
+#   start empty and the mod writes them, rather than reordering them.
 # VALUE is the value the mod puts there.
 # SCOPE tags which installer options carry the row: suit rows ship in the
 #   full and suit-only variants, terrain rows in the full and
-#   terrain-only variants.
+#   terrain-only variants. The terrain scope covers both written tool lists.
 #
 # Every slot of every patched list is listed, including the slots that do
 # not move. The render step turns this table into one whole-list rewrite
@@ -30,6 +30,7 @@
 #   T_HOTPROT   Heat shield         Ion Battery, Phosphorus
 #   T_UNW       Underwater shield   Life Support Gel, Oxygen
 #   TERRAINEDITOR Terrain Manipulator Silicate Powder, Ferrite Dust, Pure Ferrite, Magnetised Ferrite
+#   GRAVITYGUN  Gravitino Coil  Silicate Powder, Ferrite Dust, Pure Ferrite, Magnetised Ferrite
 
 METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	ENERGY	0	OXYGEN	PRODFUEL2	suit
 METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	ENERGY	1	PRODFUEL2	OXYGEN	suit
@@ -57,3 +58,7 @@ METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	TERRAINEDITOR	0		SAND
 METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	TERRAINEDITOR	1		LAND1	terrain
 METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	TERRAINEDITOR	2		LAND2	terrain
 METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	TERRAINEDITOR	3		LAND3	terrain
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	GRAVITYGUN	0		SAND1	terrain
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	GRAVITYGUN	1		LAND1	terrain
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	GRAVITYGUN	2		LAND2	terrain
+METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MBIN	GRAVITYGUN	3		LAND3	terrain

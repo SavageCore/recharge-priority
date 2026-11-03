@@ -24,12 +24,12 @@
   makes verify fail rather than ship half patched.
 - A row with an empty `BASE` is written, not reordered: the game ships no slot
   there, and the render emits a `REPLACEatLINE` block swapping the empty
-  `ChargeBy` head for the full list. TERRAINEDITOR is the case: it charges by
-  substance category (`Metal`), so the mod gives it an explicit ordered list
-  with Silicate Powder first. All four `Metal` substances are listed, so the
-  fallback set is exactly what the category offered. Proven in game: the
-  quick menu leads with Silicate Powder, so a written list beats the category
-  fallback.
+  `ChargeBy` head for the full list. TERRAINEDITOR and GRAVITYGUN are the
+  cases: both charge by substance category (`Metal`), so the mod gives each
+  an explicit ordered list with Silicate Powder first. All four `Metal`
+  substances are listed, so the fallback set is exactly what the category
+  offered. Proven in game: the quick menu leads with Silicate Powder, so a
+  written list beats the category fallback.
 - One install step, `SelectExactlyOne`, three prebuilt variants (`full`,
   `suit-only`, `terrain-only`). Separate toggles are not offered: both options
   ship the same EXML path, so two folders would overwrite each other.

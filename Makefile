@@ -59,7 +59,7 @@ SCOPES_full         := suit terrain
 SCOPES_suit-only    := suit
 SCOPES_terrain-only := terrain
 
-DESC_full         := Ion Batteries and Life Support Gel first for every suit recharge, Silicate Powder first for the Terrain Manipulator
+DESC_full         := Ion Batteries and Life Support Gel first for every suit recharge, Silicate Powder first for the Terrain Manipulator and the Gravitino Coil
 DESC_suit-only    := Ion Batteries and Life Support Gel first in every suit recharge list
 DESC_terrain-only := Silicate Powder first for the Terrain Manipulator
 

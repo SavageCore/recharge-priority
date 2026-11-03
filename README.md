@@ -17,17 +17,18 @@ sit unused in the inventory.
 | Toxic shield | Ion Battery, Ammonia |
 | Underwater shield | Life Support Gel, Oxygen |
 | Terrain Manipulator | Silicate Powder, Ferrite Dust, Pure Ferrite, Magnetised Ferrite |
+| Gravitino Coil | Silicate Powder, Ferrite Dust, Pure Ferrite, Magnetised Ferrite |
 
 Nothing is removed. If the batteries or the gel run out, the game falls back
-down the list exactly as it does now. The Terrain Manipulator ships no fuel
-list at all, only a substance category, so its row is written rather than
-reordered: Silicate Powder first, the three ferrites behind it in refinery
-order, cheapest first.
+down the list exactly as it does now. The Terrain Manipulator and the
+Gravitino Coil ship no fuel list at all, only a substance category, so their
+rows are written rather than reordered: Silicate Powder first, the three
+ferrites behind them in refinery order, cheapest first.
 
 ## Install
 
 The zip is a FOMOD installer: import it with Amethyst or Vortex and pick
-suit and Terrain Manipulator, suit only, or Terrain Manipulator only. Each
+Full, suit only, or Terrain Manipulator and Gravitino Coil. Each
 option's folder also carries its AMUMSS `.lua` script, for merging with a
 larger AMUMSS build.
 
@@ -54,10 +55,11 @@ technology table. After a game update:
        > src/vanilla-chargeby.tsv
    ```
 
-3. Compare the 20 rows in `src/patches.tsv` against the new snapshot. Every
-   `BASE` value must still match the slot it replaces, and each of the eight
-   lists must still have the same number of slots. The four TERRAINEDITOR
-   rows carry an empty `BASE`: the game must still ship no list there.
+3. Compare the 24 rows in `src/patches.tsv` against the new snapshot. Every
+   `BASE` value must still match the slot it replaces, and each of the nine
+   lists must still have the same number of slots. The TERRAINEDITOR and
+   GRAVITYGUN rows carry an empty `BASE`: the game must still ship no list
+   there.
 4. `make release`. The verify step fails loudly if a slot moved.
 
 ## Build

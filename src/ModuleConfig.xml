@@ -5,8 +5,8 @@
       <optionalFileGroups order="Explicit">
         <group name="Coverage" type="SelectExactlyOne">
           <plugins order="Explicit">
-            <plugin name="Suit and Terrain Manipulator">
-              <description>Ion Batteries and Life Support Gel first for every suit recharge, Silicate Powder first for the Terrain Manipulator. Everything else stays as fallback.</description>
+            <plugin name="Full">
+              <description>Ion Batteries and Life Support Gel first for every suit recharge, Silicate Powder first for the Terrain Manipulator and the Gravitino Coil. Everything else stays as fallback.</description>
               <files>
                 <folder source="full" destination="Recharge Priority" priority="0" />
               </files>
@@ -23,8 +23,8 @@
                 <type name="Optional" />
               </typeDescriptor>
             </plugin>
-            <plugin name="Terrain Manipulator only">
-              <description>Silicate Powder first for the Terrain Manipulator, the three ferrites behind it. Suit recharges are untouched.</description>
+            <plugin name="Terrain Manipulator and Gravitino Coil">
+              <description>Silicate Powder first for the Terrain Manipulator and the Gravitino Coil, the three ferrites behind it. Suit recharges are untouched.</description>
               <files>
                 <folder source="terrain-only" destination="Recharge Priority" priority="0" />
               </files>
